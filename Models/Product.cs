@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Store.Controllers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,5 +23,6 @@ namespace Store.Models
         public string OpisProduktu { get; set; }
         [Column(TypeName = "decimal(18,2)")]
         public decimal CenaProduktu { get; set; }
+        public ICollection<Issue> Issues { get; set; }
     }
 }

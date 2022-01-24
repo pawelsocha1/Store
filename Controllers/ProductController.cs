@@ -39,5 +39,15 @@ namespace Store.Controllers
                 return View("AddForm");
             }
         }
+        public IActionResult Issue()
+        {
+            Issue issue = new Issue()
+            {
+                Id = 1
+
+            };
+            productRepository.addIssue(4, issue);
+            return View("List", repository.FindAll());
+        }
     }
 }
