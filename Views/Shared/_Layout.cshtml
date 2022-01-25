@@ -25,7 +25,17 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ProductForm">Dodawanie produktów</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="ProductForm">Dodawanie produktów</a>
+                        </li>
+                        <li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Account" asp-action="Logout">@User.Identity.Name, Logout</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Account" asp-action="Login"> Login</a>
+                            }
                         </li>
                     </ul>
                 </div>

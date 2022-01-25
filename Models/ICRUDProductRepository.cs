@@ -12,7 +12,7 @@ namespace Store.Models
 
         void Delete(int id);
 
-        Product Update(Product product);
+        
 
         List<Product> FindAll();
 

@@ -1,9 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Store.Controllers;
+using Store.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +29,30 @@ namespace Store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(Configuration["Data:Products:ConnectionString"]));
+            services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddTransient<ICRUDProductRepository, EFCRUDProductRepository>();
             services.AddControllersWithViews();
+            services.AddMemoryCache();
+            services.AddSession();
+            services.AddControllersWithViews();
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+
+            }).AddEntityFrameworkStores<IdentityAppDbContext>();
+            
+
+            services.AddDbContext<IdentityAppDbContext>(options =>
+            options.UseSqlServer(
+            Configuration["Data:AppIdentity:ConnectionString"]));
+            
+            
+            
+
+
 
         }
 
@@ -42,7 +71,10 @@ namespace Store
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
+            
+            app.UseSession();
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -52,7 +84,17 @@ namespace Store
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                {
+                    endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                }
             });
+            IdentitySeedData.EnsurePopulated(app);
+
+        }
         }
     }
-}
+
+

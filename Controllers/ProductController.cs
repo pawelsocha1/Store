@@ -23,10 +23,11 @@ namespace Store.Controllers
             return View();
         }
 
-        public IActionResult AddForm()
+        public IActionResult ProductForm()
         {
             return View();
         }
+     
         [HttpPost]
         public IActionResult Add(Product product)
         {
@@ -36,7 +37,7 @@ namespace Store.Controllers
             }
             else
             {
-                return View("AddForm");
+                return View("ProductForm");
             }
         }
         public IActionResult Issue()

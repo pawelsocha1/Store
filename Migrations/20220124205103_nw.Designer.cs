@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Models;
 
 namespace Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220124205103_nw")]
+    partial class nw
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,36 +41,6 @@ namespace Store.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("Store.Models.Kategoria", b =>
-                {
-                    b.Property<int>("KategoriaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("NazwaKategorii")
-                        .HasColumnType("int");
-
-                    b.HasKey("KategoriaId");
-
-                    b.ToTable("Kategoria");
-                });
-
-            modelBuilder.Entity("Store.Models.Marka", b =>
-                {
-                    b.Property<int>("MarkaId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("NazwaMarki")
-                        .HasColumnType("int");
-
-                    b.HasKey("MarkaId");
-
-                    b.ToTable("Marka");
-                });
-
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -79,10 +51,10 @@ namespace Store.Migrations
                     b.Property<decimal>("CenaProduktu")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("KategoriaId")
+                    b.Property<int>("Kategoria")
                         .HasColumnType("int");
 
-                    b.Property<int>("MarkaId")
+                    b.Property<int>("Marka")
                         .HasMaxLength(100)
                         .HasColumnType("int");
 
@@ -96,10 +68,6 @@ namespace Store.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("KategoriaId");
-
-                    b.HasIndex("MarkaId");
-
                     b.ToTable("Products");
                 });
 
@@ -110,35 +78,6 @@ namespace Store.Migrations
                         .HasForeignKey("ProductId");
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Store.Models.Product", b =>
-                {
-                    b.HasOne("Store.Models.Kategoria", "Kategoria")
-                        .WithMany("Produkty")
-                        .HasForeignKey("KategoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Store.Models.Marka", "Marka")
-                        .WithMany("Produkty")
-                        .HasForeignKey("MarkaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kategoria");
-
-                    b.Navigation("Marka");
-                });
-
-            modelBuilder.Entity("Store.Models.Kategoria", b =>
-                {
-                    b.Navigation("Produkty");
-                });
-
-            modelBuilder.Entity("Store.Models.Marka", b =>
-                {
-                    b.Navigation("Produkty");
                 });
 
             modelBuilder.Entity("Store.Models.Product", b =>
