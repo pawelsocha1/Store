@@ -17,20 +17,19 @@ namespace Store.Models
 
         [HiddenInput]
         public int Id { get; set; }
-        public int KategoriaId { get; set; }
+        public int CategoryId { get; set; }
         [Required(ErrorMessage = "Wprowadz nazwę produktu")]
         [StringLength(100)]
-        public string NazwaProduktu { get; set; }
-        [Required(ErrorMessage = "Wprowadz nazwę marki")]
-        [StringLength(100)]
-        public int MarkaId { get; set; }
-        public string OpisProduktu { get; set; }
+        public string ProductName { get; set; }
+        
+        public int BrandId { get; set; }
+        public string Description { get; set; }
         [Column(TypeName = "decimal(18,2)")]
-        public decimal CenaProduktu { get; set; }
+        public decimal Price { get; set; }
         public ICollection<Issue> Issues { get; set; }
 
-        public virtual Kategoria Kategoria { get; set; }
-        public virtual Marka Marka { get; set; }
+        public virtual Category Categories { get; set; }
+        public virtual Brand Brands { get; set; }
 
     }
 }

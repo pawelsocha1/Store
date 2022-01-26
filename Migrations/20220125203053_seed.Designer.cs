@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Models;
 
 namespace Store.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220125203053_seed")]
+    partial class seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,11 +28,11 @@ namespace Store.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("NazwaProduktu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -39,57 +41,34 @@ namespace Store.Migrations
                     b.ToTable("Issue");
                 });
 
-            modelBuilder.Entity("Store.Models.Brand", b =>
+            modelBuilder.Entity("Store.Models.Kategoria", b =>
                 {
-                    b.Property<int>("BrandId")
+                    b.Property<int>("KategoriaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BrandName")
+                    b.Property<string>("NazwaKategorii")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BrandId");
-
-                    b.ToTable("Brands");
-                });
-
-            modelBuilder.Entity("Store.Models.Category", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CategoryId");
+                    b.HasKey("KategoriaId");
 
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Store.Models.LoginModel", b =>
+            modelBuilder.Entity("Store.Models.Marka", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MarkaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("NazwaMarki")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("MarkaId");
 
-                    b.Property<string>("ReturnUrl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("LoginModels");
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Store.Models.Product", b =>
@@ -99,28 +78,29 @@ namespace Store.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BrandId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
+                    b.Property<decimal>("CenaProduktu")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProductName")
+                    b.Property<int>("KategoriaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarkaId")
+                        .HasMaxLength(100)
+                        .HasColumnType("int");
+
+                    b.Property<string>("NazwaProduktu")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<string>("OpisProduktu")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("KategoriaId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("MarkaId");
 
                     b.ToTable("Products");
                 });
@@ -188,21 +168,21 @@ namespace Store.Migrations
 
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
-                    b.HasOne("Store.Models.Brand", "Brands")
-                        .WithMany("Products")
-                        .HasForeignKey("BrandId")
+                    b.HasOne("Store.Models.Kategoria", "Kategoria")
+                        .WithMany("Produkty")
+                        .HasForeignKey("KategoriaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Store.Models.Category", "Categories")
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId")
+                    b.HasOne("Store.Models.Marka", "Marka")
+                        .WithMany("Produkty")
+                        .HasForeignKey("MarkaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Brands");
+                    b.Navigation("Kategoria");
 
-                    b.Navigation("Categories");
+                    b.Navigation("Marka");
                 });
 
             modelBuilder.Entity("Store.Models.User", b =>
@@ -216,14 +196,14 @@ namespace Store.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Store.Models.Brand", b =>
+            modelBuilder.Entity("Store.Models.Kategoria", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Produkty");
                 });
 
-            modelBuilder.Entity("Store.Models.Category", b =>
+            modelBuilder.Entity("Store.Models.Marka", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("Produkty");
                 });
 
             modelBuilder.Entity("Store.Models.Product", b =>

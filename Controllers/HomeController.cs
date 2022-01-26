@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Store.Models;
 using System;
@@ -9,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace Store.Controllers
 {
+    
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

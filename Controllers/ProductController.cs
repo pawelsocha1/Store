@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Store.Models;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,11 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Store.Controllers
+
 {
+   /* [Route("api/product")]
+    [ApiController]
+    [Authorize]*/
     public class ProductController : Controller
     {
         private ICRUDProductRepository repository;
@@ -18,17 +23,18 @@ namespace Store.Controllers
             this.productRepository = productRepository;
         }
 
-        public IActionResult Index()
+   /*     public IActionResult Index()
         {
             return View();
-        }
+        }*/
 
         public IActionResult ProductForm()
         {
-            return View();
+            return View("ProductForm");
         }
      
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IActionResult Add(Product product)
         {
             if (ModelState.IsValid)
@@ -40,15 +46,20 @@ namespace Store.Controllers
                 return View("ProductForm");
             }
         }
-        public IActionResult Issue()
-        {
-            Issue issue = new Issue()
-            {
-                Id = 1
 
-            };
-            productRepository.addIssue(4, issue);
-            return View("List", repository.FindAll());
+        public IActionResult List()
+        {
+            return View(repository.FindAll());
         }
+        /* public IActionResult Issue()
+         {
+             Issue issue = new Issue()
+             {
+                 Id = 1
+
+             };
+             productRepository.addIssue(4, issue);
+             return View("List", repository.FindAll());
+         }*/
     }
 }
