@@ -11,9 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Store.Controllers;
+using Store.Filtrs;
 using Store.Models;
-using Store.Models.Validators;
-using Store.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,33 +33,18 @@ namespace Store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var authenticationSettings = new AuthenticationSettings();
-
-            Configuration.GetSection("Authentication").Bind(authenticationSettings);
-            services.AddSingleton(authenticationSettings);
-            services.AddAuthentication(option =>
-            {
-                option.DefaultAuthenticateScheme = "Bearer";
-                option.DefaultScheme = "Bearer";
-                option.DefaultChallengeScheme = "Bearer";
-            }).AddJwtBearer(cfg =>
-            {
-                cfg.RequireHttpsMetadata = false;
-                cfg.SaveToken = true;
-                cfg.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = authenticationSettings.JwtIssuer,
-                    ValidAudience = authenticationSettings.JwtIssuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
-                };
-            });
+           
 
             services.AddControllersWithViews();
 
-          
+
+            services.AddDbContext<AppIdentityDbContext>(options =>
+            options.UseSqlServer(
+            Configuration["Data:Products:ConnectionString"]));
             services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<AppIdentityDbContext>()
             .AddDefaultTokenProviders();
+
 
 
             services.AddControllers().AddFluentValidation();
@@ -73,11 +57,14 @@ namespace Store
             services.AddSession();
             services.AddControllersWithViews();
             services.AddScoped<Seeder>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
-            
-            
+          
+
+            services.AddSingleton<BasicAuthorizationFilter>();
+            services.AddMvc().AddMvcOptions(options =>
+            {
+                options.Filters.AddService<BasicAuthorizationFilter>();
+            });
+
 
 
 
@@ -113,16 +100,13 @@ namespace Store
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                {
-                    endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                }
+
             });
-            
+            IdentitySeedData.EnsurePopulated(app);
+            app.UseMiddleware<MiddlewareCounter>();
 
         }
-        }
+    }
     }
 
 

@@ -9,9 +9,7 @@ using System.Threading.Tasks;
 namespace Store.Controllers
 
 {
-   /* [Route("api/product")]
-    [ApiController]
-    [Authorize]*/
+  
     public class ProductController : Controller
     {
         private ICRUDProductRepository repository;
@@ -23,18 +21,17 @@ namespace Store.Controllers
             this.productRepository = productRepository;
         }
 
-   /*     public IActionResult Index()
+       public IActionResult Index()
         {
             return View();
-        }*/
+        }
 
         public IActionResult ProductForm()
         {
-            return View("ProductForm");
+            return View();
         }
      
         [HttpPost]
-        [Authorize(Roles ="Admin")]
         public IActionResult Add(Product product)
         {
             if (ModelState.IsValid)
@@ -51,7 +48,7 @@ namespace Store.Controllers
         {
             return View(repository.FindAll());
         }
-        /* public IActionResult Issue()
+        public IActionResult Issue()
          {
              Issue issue = new Issue()
              {
@@ -60,6 +57,6 @@ namespace Store.Controllers
              };
              productRepository.addIssue(4, issue);
              return View("List", repository.FindAll());
-         }*/
+         }
     }
 }

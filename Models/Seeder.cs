@@ -18,12 +18,7 @@ namespace Store.Models
         {
             if (_dbContext.Database.CanConnect())
             {
-                if (!_dbContext.Roles.Any())
-                {
-                    var roles = GetRoles();
-                    _dbContext.Roles.AddRange(roles);
-                    _dbContext.SaveChanges();
-                }
+             
                 if (!_dbContext.Products.Any())
                 {
                     var products = GetProducts();
@@ -47,22 +42,8 @@ namespace Store.Models
             }
         }
 
-        private IEnumerable<Role> GetRoles()
-        {
-            var roles = new List<Role>()
-            {
-                new Role()
-                {
-                    Name="User"
-                },
-                 new Role()
-                {
-                    Name="Admin"
-                }
-
-            };
-            return roles;
-        }
+     
+        
 
         private IEnumerable<Category> GetCategories()
         {

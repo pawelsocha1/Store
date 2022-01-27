@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Store.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,7 @@ namespace Store
         {
             this.context = context;
         }
-
+        
         public Product Add(Product Product)
         {
             EntityEntry<Product> entityEntry = context.Add(Product);
@@ -21,7 +23,7 @@ namespace Store
             return entityEntry.Entity;
 
         }
-
+        
         public void Delete(int id)
         {
             context.Products.Remove(context.Products.Find(id));

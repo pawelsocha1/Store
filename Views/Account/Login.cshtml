@@ -1,5 +1,5 @@
-﻿@model Store.Models.LoginDto
-   
+﻿@model Store.Models.LoginModel
+
 
 @{
 }
@@ -12,9 +12,9 @@
         <form asp-action="Login">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
@@ -24,11 +24,6 @@
             <div class="form-group">
                 <input type="submit" value="Zaloguj się" class="btn btn-primary" />
             </div>
-            </form>
-            <form asp-action="Logout">
-                <div class="form-group">
-                    <input type="submit" value="Wyloguj się" class="btn btn-primary" />
-                </div>
-            </form>
-</div>
+        </form> 
+    </div>
 </div>
