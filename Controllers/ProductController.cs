@@ -29,7 +29,7 @@ namespace Store.Controllers
             return View();
         }
 
-
+        [Authorize]
         public IActionResult ProductForm()
         {
             return View();

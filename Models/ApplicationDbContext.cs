@@ -18,6 +18,7 @@ namespace Store.Models
         public DbSet<Brand> Brands { get; set; }
       
         public DbSet<LoginModel> LoginModels { get; set; }
+        public DbSet<Complaint> Complaints { get; set; }
 
 
     }
