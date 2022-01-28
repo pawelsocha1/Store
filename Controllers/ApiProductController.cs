@@ -22,7 +22,7 @@ namespace Store.Controllers
         }
 
         [HttpGet]
-        [DisableBasicAuthorization]
+       
         public IList<Product> GetProducts()
         {
             return products.FindAll();
@@ -37,7 +37,7 @@ namespace Store.Controllers
 
 
         [HttpGet("{id}")]
-        [DisableBasicAuthorization]
+       
         public ActionResult<Product> GetProduct(int id)
         {
             Product product = products.FindById(id);

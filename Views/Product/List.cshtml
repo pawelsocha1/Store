@@ -5,21 +5,24 @@
         <table class="table">
             @foreach (var product in @Model)
             {
-                <tr>
-                    <td>
-                        @product.ProductName
-                    </td>
-                    <td>
-                        @product.CategoryId
-                    </td>
-                    <td>
-                        @product.BrandId
-                    </td>
-                  @*  <td>
-                        <a class="btn btn-primary" asp-controller="Contact" asp-action="EditForm" asp-route-id="@contact.Id">Edytuj</a>
-                        <a class="btn btn-primary" asp-controller="Contact" asp-action="Delete" asp-route-id="@contact.Id">Usuń</a>
-                    </td>*@
-                </tr>
+            <tr>
+                <td>
+                    @product.ProductName
+                </td>
+                <td>
+                    @product.Categories
+                </td>
+                <td>
+                    @product.Brands
+                </td>
+                <td>
+                    @product.Price
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Product" asp-action="EditForm" asp-route-id="@product.Id">Edytuj</a>
+                    <a class="btn btn-primary" asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id">Usuń</a>
+                </td>
+            </tr>
             }
         </table>
     </div>

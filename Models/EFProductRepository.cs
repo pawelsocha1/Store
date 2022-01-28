@@ -17,12 +17,6 @@ namespace Store.Models
 
         public IQueryable<Product> products => _context.Products;
 
-        public void addIssue(int Id, Issue issue)
-        {
-            Product product = _context.Products.Find(Id);
-            product.Issues.Add(issue);
-            _context.Products.Update(product);
-            _context.SaveChanges();
-        }
+      
     }
 }

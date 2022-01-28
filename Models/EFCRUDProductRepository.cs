@@ -15,7 +15,7 @@ namespace Store
         {
             this.context = context;
         }
-        
+
         public Product Add(Product Product)
         {
             EntityEntry<Product> entityEntry = context.Add(Product);
@@ -23,7 +23,7 @@ namespace Store
             return entityEntry.Entity;
 
         }
-        
+
         public void Delete(int id)
         {
             context.Products.Remove(context.Products.Find(id));
@@ -38,6 +38,16 @@ namespace Store
         public Product FindById(int id)
         {
             return context.Products.Find(id);
+        }
+
+    
+        public Product Update(Product product)
+        {
+        
+
+        EntityEntry<Product> entityEntry = context.Products.Update(product);
+        context.SaveChanges();
+        return entityEntry.Entity;
         }
     }
 }

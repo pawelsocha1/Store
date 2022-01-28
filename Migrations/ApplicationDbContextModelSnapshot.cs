@@ -19,26 +19,6 @@ namespace Store.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Store.Controllers.Issue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Issue");
-                });
-
             modelBuilder.Entity("Store.Models.Brand", b =>
                 {
                     b.Property<int>("BrandId")
@@ -99,10 +79,10 @@ namespace Store.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BrandId")
+                    b.Property<int?>("BrandsBrandId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoriesCategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -118,35 +98,22 @@ namespace Store.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BrandsBrandId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CategoriesCategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Store.Controllers.Issue", b =>
-                {
-                    b.HasOne("Store.Models.Product", "Product")
-                        .WithMany("Issues")
-                        .HasForeignKey("ProductId");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Store.Models.Product", b =>
                 {
                     b.HasOne("Store.Models.Brand", "Brands")
                         .WithMany("Products")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BrandsBrandId");
 
                     b.HasOne("Store.Models.Category", "Categories")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoriesCategoryId");
 
                     b.Navigation("Brands");
 
@@ -161,11 +128,6 @@ namespace Store.Migrations
             modelBuilder.Entity("Store.Models.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("Store.Models.Product", b =>
-                {
-                    b.Navigation("Issues");
                 });
 #pragma warning restore 612, 618
         }

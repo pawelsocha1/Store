@@ -42,8 +42,8 @@ namespace Store.Models
             }
         }
 
-     
-        
+
+
 
         private IEnumerable<Category> GetCategories()
         {
@@ -65,9 +65,9 @@ namespace Store.Models
 
 
             };
-            return categories;
-
-        }
+            return categories; 
+                }
+        
         private IEnumerable<Brand> GetBrands()
         {
             var brands = new List<Brand>()
@@ -92,24 +92,21 @@ namespace Store.Models
         }
             private IEnumerable<Product> GetProducts()
             {
-                var products = new List<Product>()
-                { 
+            var products = new List<Product>()
+                {
                 new Product()
                 {
                     ProductName = "Bluza Nike",
                     Price = 300,
-
-
-
-
-
+                  
                 },
+              
 
                 new Product()
                 {
                     ProductName = "Bluza adidas",
                     Price = 350,
-
+             
 
 
 
@@ -119,7 +116,11 @@ namespace Store.Models
                 {
                     ProductName = "Koszulka Nike",
                     Price = 120,
-
+              
+                    Brands=new Brand()
+                    {
+                        BrandName="Nike"
+                    }
 
                 }
             };
