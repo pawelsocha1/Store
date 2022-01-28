@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Store.Filtrs;
 using Store.Models;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace Store.Controllers
 
 {
-
+    
     public class ProductController : Controller
     {
         private ICRUDProductRepository repository;
@@ -33,7 +34,7 @@ namespace Store.Controllers
         {
             return View();
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Add(Product product)
         {
@@ -52,17 +53,18 @@ namespace Store.Controllers
         {
             return View(repository.FindAll());
         }
+        [Authorize]
         public IActionResult Delete(int id)
         {
             repository.Delete(id);
             return View("List", repository.FindAll());
         }
-
+        [Authorize]
         public IActionResult EditForm(int id)
         {
             return View(repository.FindById(id));
         }
-
+        [Authorize]
         public IActionResult Edit(Product product)
         {
             repository.Update(product);

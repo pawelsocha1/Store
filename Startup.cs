@@ -1,5 +1,4 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -47,7 +46,7 @@ namespace Store
 
 
 
-            services.AddControllers().AddFluentValidation();
+            
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration["Data:Products:ConnectionString"]));
             services.AddTransient<IProductRepository, EFProductRepository>();

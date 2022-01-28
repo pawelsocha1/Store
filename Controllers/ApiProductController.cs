@@ -15,10 +15,15 @@ namespace Store.Controllers
     public class ApiProductController : ControllerBase
     {
         private ICRUDProductRepository products;
+        
 
         public ApiProductController(ICRUDProductRepository products)
         {
             this.products = products;
+        }
+
+        public ApiProductController()
+        {
         }
 
         [HttpGet]
